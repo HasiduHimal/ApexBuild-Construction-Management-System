@@ -1,5 +1,8 @@
 package com.construction.inventory;
 
+// Developed & Verified by Bandara R.A.H.G.D (IT25101722)
+
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
