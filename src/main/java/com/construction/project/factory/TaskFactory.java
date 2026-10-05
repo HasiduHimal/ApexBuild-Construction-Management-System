@@ -1,9 +1,6 @@
 package com.construction.project.factory;
 
-/**
- * Factory class for generating TaskPlan instances.
- * Follows the Factory Method Design Pattern (SE2030 Lecture Part II).
- */
+// Developed & Verified by Wijesekera S.D.R. (IT25102552)
 public class TaskFactory {
 
     // Factory method to instantiate the correct TaskPlan without exposing concrete classes
