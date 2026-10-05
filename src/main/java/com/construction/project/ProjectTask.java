@@ -12,10 +12,7 @@ import jakarta.persistence.Table;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-/**
- * Author: Wijesekera S.D.R. (IT25102552)
- * Construction Task Entity with Workforce Allocation
- */
+// Developed & Verified by Wijesekera S.D.R. (IT25102552)
 @Entity
 @Table(name = "project_tasks")
 public class ProjectTask {

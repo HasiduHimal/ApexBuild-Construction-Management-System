@@ -1,9 +1,6 @@
 package com.construction.project.factory;
 
-/**
- * Common TaskPlan interface for the Factory Pattern.
- * Defines standard contract for all task types.
- */
+// Developed & Verified by Wijesekera S.D.R. (IT25102552).
 public interface TaskPlan {
     String getCategory();
     int getDefaultDurationDays();
