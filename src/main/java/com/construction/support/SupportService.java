@@ -1,5 +1,5 @@
 package com.construction.support;
-// Developed & Verified by Weerawansha K.H.H. (IT25103631)
+// Developed & Verified by Weerawansha K.H.H. (IT25103631).
 
 import com.construction.support.observer.ClientNotificationObserver;
 import com.construction.support.observer.QualityProgressSubject;

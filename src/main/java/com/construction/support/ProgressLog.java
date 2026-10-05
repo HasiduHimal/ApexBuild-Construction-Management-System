@@ -1,5 +1,5 @@
 package com.construction.support;
-// Developed & Verified by Weerawansha K.H.H. (IT25103631)
+// Developed & Verified by Weerawansha K.H.H. (IT25103631).
 import com.construction.project.Project;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

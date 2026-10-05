@@ -1,5 +1,5 @@
 package com.construction.support;
-// Developed & Verified by Weerawansha K.H.H. (IT25103631)
+// Developed & Verified by Weerawansha K.H.H. (IT25103631).
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

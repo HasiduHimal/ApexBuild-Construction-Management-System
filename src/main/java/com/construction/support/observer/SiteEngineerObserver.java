@@ -3,7 +3,7 @@ package com.construction.support.observer;
 import java.util.ArrayList;
 import java.util.List;
 
-// Developed & Verified by Weerawansha K.H.H. (IT25103631)
+// Developed & Verified by Weerawansha K.H.H. (IT25103631).
 public class SiteEngineerObserver implements Observer {
 
     private final String engineerName;
