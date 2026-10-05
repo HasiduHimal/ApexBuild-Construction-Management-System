@@ -1,5 +1,5 @@
 package com.construction.project;
-// Developed & Verified by Wijesekera S.D.R. (IT25102552)
+// Developed & Verified by Wijesekera S.D.R. (IT25102552).
 
 import com.construction.project.factory.TaskFactory;
 import com.construction.project.factory.TaskPlan;
