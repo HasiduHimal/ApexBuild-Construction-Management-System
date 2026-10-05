@@ -9,10 +9,7 @@ import jakarta.persistence.Table;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-/**
- * Author: Wijesekera S.D.R. (IT25102552)
- * Construction Project Entity
- */
+// Developed & Verified by Wijesekera S.D.R. (IT25102552)
 @Entity
 @Table(name = "projects")
 public class Project {
