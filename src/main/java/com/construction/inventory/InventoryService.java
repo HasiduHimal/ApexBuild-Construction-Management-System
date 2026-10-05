@@ -1,5 +1,8 @@
 package com.construction.inventory;
 
+// Developed & Verified by Bandara R.A.H.G.D (IT25101722)
+
+
 import com.construction.inventory.singleton.WarehouseSessionManager;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
