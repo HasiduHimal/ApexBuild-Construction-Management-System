@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Client Portal - ApexBuild Construction</title>
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .nav-pills .nav-link {
+      color: #cbd5e1;
+      border: 1px solid transparent;
+      transition: all 0.25s ease;
+    }
+    .nav-pills .nav-link:hover {
+      color: #38bdf8;
+      background: rgba(255, 255, 255, 0.06);
+    }
+    .nav-pills .nav-link.active {
+      background: linear-gradient(135deg, #0284c7 0%, #2563eb 100%) !important;
+      border: 1px solid rgba(255, 255, 255, 0.25) !important;
+      color: #ffffff !important;
+      box-shadow: 0 4px 18px rgba(14, 165, 233, 0.35);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <nav class="navbar navbar-expand-lg navbar-dark navbar-custom sticky-top">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center gap-2" href="#">
+        <i class="bi bi-building-check text-info fs-3"></i>
+        <span>ApexBuild <span class="badge bg-primary bg-opacity-25 text-info border border-info border-opacity-25 rounded-pill fw-normal px-2.5 py-1">Client Portal</span></span>
+      </a>
+      <div class="d-flex align-items-center gap-3">
+        <span class="text-light text-opacity-80 small d-none d-md-inline">Welcome, <strong class="text-white" id="client-user-name">Client</strong></span>
+        <button class="btn btn-glass-portal btn-sm px-3 py-1.5 d-flex align-items-center gap-2" onclick="logout()"><i class="bi bi-box-arrow-right text-danger"></i><span>Logout</span></button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container py-4">
+    <!-- Header Card -->
+    <div class="glass-card p-4 mb-4">
+      <div class="row align-items-center">
+        <div class="col-md-8">
+          <h3 class="fw-bold text-white mb-1"><i class="bi bi-person-workspace text-info me-2"></i>Customer Project Dashboard</h3>
+          <p class="text-light text-opacity-75 mb-0">Track your building progress, review project cost quotations, upload architectural plans, and submit inquiries directly to our engineering managers.</p>
+        </div>
+        <div class="col-md-4 text-md-end mt-3 mt-md-0">
+          <button class="btn btn-glow-primary btn-lg px-4 py-3 shadow-lg" onclick="openSubmitRequestModal()">
+            <i class="bi bi-cloud-upload-fill me-2"></i>New Construction Request
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Client Nav Tabs -->
+    <ul class="nav nav-pills mb-4 glass-card p-2 gap-2" id="clientTabs" role="tablist">
+      <li class="nav-item">
+        <button class="nav-link active fw-semibold rounded-pill px-4 py-2" id="tab-projects-btn" data-bs-toggle="pill" data-bs-target="#tab-projects">
+          <i class="bi bi-kanban me-2"></i>My Projects
+        </button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link fw-semibold rounded-pill px-4 py-2" id="tab-quotes-btn" data-bs-toggle="pill" data-bs-target="#tab-quotes">
+          <i class="bi bi-file-earmark-text me-2"></i>Quotations & Estimates
+        </button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link fw-semibold rounded-pill px-4 py-2" id="tab-inquiries-btn" data-bs-toggle="pill" data-bs-target="#tab-inquiries">
+          <i class="bi bi-chat-dots me-2"></i>Inquiries & Support
+        </button>
+      </li>
+    </ul>
+
+    <!-- Tab Contents -->
+    <div class="tab-content" id="clientTabsContent">
+
+      <!-- 1. MY PROJECTS TAB -->
+      <div class="tab-pane fade show active" id="tab-projects">
+        <div class="glass-card overflow-hidden mb-4">
+          <div class="card-header py-3 px-4 d-flex justify-content-between align-items-center">
+            <h6 class="mb-0 fw-bold text-white"><i class="bi bi-building me-2 text-info"></i>Your Construction Projects</h6>
+            <button class="btn btn-sm btn-glass-portal" onclick="loadClientProjects()"><i class="bi bi-arrow-clockwise text-info me-1"></i>Refresh</button>
+          </div>
+          <div class="card-body p-0">
+            <div class="table-responsive">
+              <table class="table custom-table table-hover mb-0 align-middle">
+                <thead>
+                  <tr>
+                    <th>Project ID</th>
+                    <th>Project Name</th>
+                    <th>Location</th>
+                    <th>Timeline</th>
+                    <th>Estimated Budget</th>
+                    <th>Status</th>
+                    <th>House Plan</th>
+                  </tr>
+                </thead>
+                <tbody id="client-projects-body">
+                  <tr><td colspan="7" class="text-center py-4 text-light text-opacity-60">Loading projects...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. QUOTATIONS TAB -->
+      <div class="tab-pane fade" id="tab-quotes">
+        <div class="glass-card overflow-hidden mb-4">
+          <div class="card-header py-3 px-4 d-flex justify-content-between align-items-center">
+            <h6 class="mb-0 fw-bold text-white"><i class="bi bi-calculator me-2 text-info"></i>Quotations Received</h6>
+            <button class="btn btn-sm btn-glass-portal" onclick="loadClientQuotations()"><i class="bi bi-arrow-clockwise text-info me-1"></i>Refresh</button>
+          </div>
+          <div class="card-body p-0">
+            <div class="table-responsive">
+              <table class="table custom-table table-hover mb-0 align-middle">
+                <thead>
+                  <tr>
+                    <th>Quote ID</th>
+                    <th>Project</th>
+                    <th>Labor Estimate</th>
+                    <th>Material Estimate</th>
+                    <th>Overheads</th>
+                    <th>Total Cost</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody id="client-quotes-body">
+                  <tr><td colspan="8" class="text-center py-4 text-light text-opacity-60">Loading quotations...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. INQUIRIES & COMPLAINTS TAB -->
+      <div class="tab-pane fade" id="tab-inquiries">
+        <div class="glass-card overflow-hidden mb-4">
+          <div class="card-header py-3 px-4 d-flex justify-content-between align-items-center">
+            <h6 class="mb-0 fw-bold text-white"><i class="bi bi-headset me-2 text-info"></i>My Support Inquiries & Tickets</h6>
+            <button class="btn btn-glow-primary btn-sm px-3" onclick="openNewInquiryModal()"><i class="bi bi-plus-circle me-1"></i>New Inquiry</button>
+          </div>
+          <div class="card-body p-0">
+            <div class="table-responsive">
+              <table class="table custom-table table-hover mb-0 align-middle">
+                <thead>
+                  <tr>
+                    <th>Ticket ID</th>
+                    <th>Subject</th>
+                    <th>Your Message</th>
+                    <th>Status</th>
+                    <th>Engineer Resolution</th>
+                    <th>Submitted On</th>
+                  </tr>
+                </thead>
+                <tbody id="client-inquiries-body">
+                  <tr><td colspan="6" class="text-center py-4 text-light text-opacity-60">Loading inquiries...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ==================================================================== -->
+  <!-- MODAL: SUBMIT CONSTRUCTION REQUEST WITH HOUSE PLAN -->
+  <!-- ==================================================================== -->
+  <div class="modal fade" id="requestModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title fw-bold"><i class="bi bi-file-earmark-arrow-up me-2 text-info"></i>Submit Construction Request</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <form onsubmit="handleConstructionRequest(event)">
+          <div class="modal-body p-4">
+            <div class="mb-3">
+              <label class="form-label fw-semibold">Project Title / Property Name *</label>
+              <input type="text" id="req-title" class="form-control" required placeholder="e.g. 2-Story Residential House">
+            </div>
+            <div class="mb-3">
+              <label class="form-label fw-semibold">Site Location / Address *</label>
+              <input type="text" id="req-location" class="form-control" required placeholder="e.g. Malabe, Colombo">
+            </div>
+            <div class="mb-3">
+              <label class="form-label fw-semibold">Estimated Budget Target (LKR)</label>
+              <input type="number" id="req-budget" class="form-control" placeholder="15000000">
+            </div>
+            <div class="mb-3">
+              <label class="form-label fw-semibold">Project Requirements / Description</label>
+              <textarea id="req-desc" class="form-control" rows="3" placeholder="Tell us about your room requirements, floors, pool, etc."></textarea>
+            </div>
+            <div class="mb-3">
+              <label class="form-label fw-semibold">Upload House Plan Blueprint (PDF / Image)</label>
+              <input type="file" id="req-file" class="form-control" accept=".pdf,.png,.jpg,.jpeg">
+              <small class="text-light text-opacity-50">Upload architectural floor plans or concept sketches (Optional).</small>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-outline-secondary rounded-pill px-3" data-bs-dismiss="modal">Cancel</button>
+            <button type="submit" class="btn btn-glow-primary px-4 py-2 fw-bold">Submit Request</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================================================================== -->
+  <!-- MODAL: LODGE INQUIRY / COMPLAINT -->
+  <!-- ==================================================================== -->
+  <div class="modal fade" id="newInquiryModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title fw-bold"><i class="bi bi-pencil-square me-2 text-info"></i>Submit Support Inquiry / Complaint</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <form onsubmit="handleInquirySubmit(event)">
+          <div class="modal-body p-4">
+            <div class="mb-3">
+              <label class="form-label fw-semibold">Related Project (Optional)</label>
+              <select id="inq-project" class="form-select">
+                <option value="">-- General Inquiry (No Specific Project) --</option>
+              </select>
+              <small class="text-light text-opacity-50">Select your project if this inquiry relates to a specific site.</small>
+            </div>
+            <div class="mb-3">
+              <label class="form-label fw-semibold">Inquiry Subject *</label>
+              <input type="text" id="inq-subject" class="form-control" required placeholder="e.g. Delay in foundation casting">
+            </div>
+            <div class="mb-3">
+              <label class="form-label fw-semibold">Detailed Message *</label>
+              <textarea id="inq-message" class="form-control" rows="4" required placeholder="Provide full details of your question or complaint..."></textarea>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-outline-secondary rounded-pill px-3" data-bs-dismiss="modal">Cancel</button>
+            <button type="submit" class="btn btn-glow-primary px-4 py-2 fw-bold">Send Inquiry</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/common.js"></script>
+  <script>
+    let currentUser = null;
+
+    document.addEventListener('DOMContentLoaded', () => {
+      currentUser = checkPageAuth('CLIENT');
+      if (!currentUser) return;
+
+      document.getElementById('client-user-name').innerText = currentUser.fullName;
+      loadClientProjects();
+      loadClientQuotations();
+      loadClientInquiries();
+    });
+
+    async function loadClientProjects() {
+      const tbody = document.getElementById('client-projects-body');
+      try {
+        const res = await fetch(`/api/projects?clientId=${currentUser.id}`);
+        const projects = await res.json();
+        tbody.innerHTML = '';
+
+        if (projects.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="7" class="text-center py-4 text-muted">You have no construction projects yet. Click "+ New Construction Request" to begin!</td></tr>';
+          return;
+        }
+
+        projects.forEach(p => {
+          const tr = document.createElement('tr');
+          let statusBadge = `<span class="badge badge-planned">${p.status}</span>`;
+          if (p.status === 'IN_PROGRESS') statusBadge = `<span class="badge badge-in-progress">IN PROGRESS</span>`;
+          if (p.status === 'COMPLETED') statusBadge = `<span class="badge badge-completed">COMPLETED</span>`;
+
+          const planLink = p.housePlanFile 
+            ? `<a href="${p.housePlanFile}" target="_blank" class="btn btn-sm btn-outline-primary"><i class="bi bi-file-earmark-pdf me-1"></i>View Plan</a>`
+            : '<span class="text-muted small">None</span>';
+
+          tr.innerHTML = `
+            <td><strong>#${p.id}</strong></td>
+            <td><strong>${p.projectName}</strong></td>
+            <td>${p.location}</td>
+            <td>${p.startDate || 'TBD'} to ${p.endDate || 'TBD'}</td>
+            <td>${formatCurrency(p.estimatedBudget)}</td>
+            <td>${statusBadge}</td>
+            <td>${planLink}</td>
+          `;
+          tbody.appendChild(tr);
+        });
+      } catch (err) {
+        showToast('Error loading projects: ' + err.message, 'error');
+      }
+    }
+
+    async function loadClientQuotations() {
+      const tbody = document.getElementById('client-quotes-body');
+      try {
+        const res = await fetch(`/api/finance/quotations?clientEmail=${currentUser.email}`);
+        const quotes = await res.json();
+        tbody.innerHTML = '';
+
+        if (quotes.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="8" class="text-center py-4 text-muted">No cost quotations generated for your account yet.</td></tr>';
+          return;
+        }
+
+        quotes.forEach(q => {
+          const tr = document.createElement('tr');
+          let actionButtons = '';
+          if (q.status === 'SENT' || q.status === 'DRAFT') {
+            actionButtons = `
+              <button class="btn btn-sm btn-success me-1" onclick="updateQuoteStatus(${q.id}, 'ACCEPTED')">Accept</button>
+              <button class="btn btn-sm btn-outline-danger" onclick="updateQuoteStatus(${q.id}, 'REJECTED')">Reject</button>
+            `;
+          } else {
+            actionButtons = `<span class="badge bg-secondary">${q.status}</span>`;
+          }
+
+          tr.innerHTML = `
+            <td><strong>#${q.id}</strong></td>
+            <td><strong>${q.projectName}</strong></td>
+            <td>${formatCurrency(q.laborCost)}</td>
+            <td>${formatCurrency(q.materialCost)}</td>
+            <td>${formatCurrency(q.overheadCost)}</td>
+            <td class="fw-bold text-primary">${formatCurrency(q.totalAmount)}</td>
+            <td><span class="badge ${q.status === 'ACCEPTED' ? 'bg-success' : 'bg-warning text-dark'}">${q.status}</span></td>
+            <td>${actionButtons}</td>
+          `;
+          tbody.appendChild(tr);
+        });
+      } catch (err) {
+        showToast('Error loading quotations: ' + err.message, 'error');
+      }
+    }
+
+    async function updateQuoteStatus(id, newStatus) {
+      try {
+        const res = await fetch(`/api/finance/quotations/${id}`);
+        const q = await res.json();
+        q.status = newStatus;
+
+        const updateRes = await fetch(`/api/finance/quotations/${id}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(q)
+        });
+
+        if (!updateRes.ok) throw new Error(await updateRes.text());
+        showToast(`Quotation #${id} marked as ${newStatus}!`);
+        loadClientQuotations();
+      } catch (err) {
+        showToast('Failed to update quote: ' + err.message, 'error');
+      }
+    }
+
+    async function loadClientInquiries() {
+      const tbody = document.getElementById('client-inquiries-body');
+      try {
+        const res = await fetch(`/api/support/inquiries?clientEmail=${currentUser.email}`);
+        const inqs = await res.json();
+        tbody.innerHTML = '';
+
+        if (inqs.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="6" class="text-center py-4 text-muted">You have not submitted any inquiries or complaints.</td></tr>';
+          return;
+        }
+
+        inqs.forEach(i => {
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td><strong>#${i.id}</strong></td>
+            <td>
+              ${i.projectId ? `<span class="badge bg-secondary mb-1">Project #${i.projectId}</span><br>` : ''}
+              <strong>${i.subject}</strong>
+            </td>
+            <td>${i.message}</td>
+            <td><span class="badge ${i.status === 'RESOLVED' ? 'bg-success' : 'bg-warning text-dark'}">${i.status}</span></td>
+            <td>${i.resolution || '<span class="text-muted fst-italic">Awaiting engineer reply</span>'}</td>
+            <td>${i.createdAt ? i.createdAt.split('T')[0] : 'N/A'}</td>
+          `;
+          tbody.appendChild(tr);
+        });
+      } catch (err) {
+        showToast('Error loading inquiries: ' + err.message, 'error');
+      }
+    }
+
+    function openSubmitRequestModal() {
+      document.getElementById('req-title').value = '';
+      document.getElementById('req-location').value = '';
+      document.getElementById('req-budget').value = '';
+      document.getElementById('req-desc').value = '';
+      document.getElementById('req-file').value = '';
+      new bootstrap.Modal(document.getElementById('requestModal')).show();
+    }
+
+    async function handleConstructionRequest(event) {
+      event.preventDefault();
+      const fileInput = document.getElementById('req-file');
+      let uploadedFilePath = null;
+
+      try {
+        if (fileInput.files.length > 0) {
+          const formData = new FormData();
+          formData.append('file', fileInput.files[0]);
+          const uploadRes = await fetch('/api/projects/upload-plan', {
+            method: 'POST',
+            body: formData
+          });
+          if (uploadRes.ok) {
+            const uploadData = await uploadRes.json();
+            uploadedFilePath = uploadData.filePath;
+          }
+        }
+
+        const projectData = {
+          projectName: document.getElementById('req-title').value,
+          location: document.getElementById('req-location').value,
+          estimatedBudget: parseFloat(document.getElementById('req-budget').value) || 0,
+          description: document.getElementById('req-desc').value,
+          clientId: currentUser.id,
+          clientName: currentUser.fullName,
+          status: 'PLANNED',
+          housePlanFile: uploadedFilePath
+        };
+
+        const res = await fetch('/api/projects', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(projectData)
+        });
+
+        if (!res.ok) throw new Error(await res.text());
+
+        showToast('Construction request submitted successfully!');
+        bootstrap.Modal.getInstance(document.getElementById('requestModal')).hide();
+        loadClientProjects();
+      } catch (err) {
+        showToast('Failed to submit request: ' + err.message, 'error');
+      }
+    }
+
+    async function openNewInquiryModal() {
+      document.getElementById('inq-subject').value = '';
+      document.getElementById('inq-message').value = '';
+
+      const projSelect = document.getElementById('inq-project');
+      projSelect.innerHTML = '<option value="">-- General Inquiry (No Specific Project) --</option>';
+
+      try {
+        const res = await fetch(`/api/projects?clientId=${currentUser.id}`);
+        if (res.ok) {
+          const projects = await res.json();
+          projects.forEach(p => {
+            const opt = document.createElement('option');
+            opt.value = p.id;
+            opt.textContent = `#${p.id} - ${p.projectName} (${p.location || 'Site'})`;
+            projSelect.appendChild(opt);
+          });
+        }
+      } catch (err) {
+        console.error('Error loading projects for inquiry dropdown:', err);
+      }
+
+      new bootstrap.Modal(document.getElementById('newInquiryModal')).show();
+    }
+
+    async function handleInquirySubmit(event) {
+      event.preventDefault();
+      const projVal = document.getElementById('inq-project').value;
+      const data = {
+        clientId: currentUser.id,
+        clientName: currentUser.fullName,
+        clientEmail: currentUser.email,
+        projectId: projVal ? parseInt(projVal) : null,
+        subject: document.getElementById('inq-subject').value,
+        message: document.getElementById('inq-message').value,
+        status: 'OPEN'
+      };
+
+      try {
+        const res = await fetch('/api/support/inquiries', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+
+        if (!res.ok) throw new Error(await res.text());
+
+        showToast('Inquiry submitted to project management!');
+        bootstrap.Modal.getInstance(document.getElementById('newInquiryModal')).hide();
+        loadClientInquiries();
+      } catch (err) {
+        showToast('Failed to lodge inquiry: ' + err.message, 'error');
+      }
+    }
+  </script>
+</body>
+</html>

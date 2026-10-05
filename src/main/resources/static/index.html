@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ApexBuild - Web-based Construction Management System</title>
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .glass-card {
+      background: rgba(15, 23, 42, 0.75) !important;
+      backdrop-filter: blur(14px) saturate(160%);
+      -webkit-backdrop-filter: blur(14px) saturate(160%);
+      border: 1px solid rgba(255, 255, 255, 0.14) !important;
+      border-radius: 18px !important;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .glass-card:hover {
+      transform: translateY(-7px);
+      background: rgba(15, 23, 42, 0.85) !important;
+      border-color: rgba(56, 189, 248, 0.5) !important;
+      box-shadow: 0 18px 40px -10px rgba(0, 0, 0, 0.6), 0 0 25px rgba(56, 189, 248, 0.2);
+    }
+    .project-card-img-wrap {
+      overflow: hidden;
+      height: 240px;
+      position: relative;
+    }
+    .project-card-img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .glass-card:hover .project-card-img-wrap img {
+      transform: scale(1.08);
+    }
+
+    /* Modern Glow & Glass Buttons */
+    .btn-glow-primary {
+      background: linear-gradient(135deg, #0284c7 0%, #2563eb 100%) !important;
+      border: 1px solid rgba(255, 255, 255, 0.25) !important;
+      color: #ffffff !important;
+      border-radius: 50px !important;
+      box-shadow: 0 4px 16px rgba(14, 165, 233, 0.38) !important;
+      font-weight: 600 !important;
+      letter-spacing: 0.3px;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    }
+    .btn-glow-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(14, 165, 233, 0.55), 0 0 16px rgba(56, 189, 248, 0.35) !important;
+      filter: brightness(1.1);
+      color: #ffffff !important;
+    }
+    .btn-glow-primary:active {
+      transform: translateY(0);
+      box-shadow: 0 2px 10px rgba(14, 165, 233, 0.35) !important;
+    }
+
+    .btn-glass-portal {
+      background: rgba(255, 255, 255, 0.08) !important;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.22) !important;
+      color: #f1f5f9 !important;
+      border-radius: 50px !important;
+      font-weight: 600 !important;
+      letter-spacing: 0.3px;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    }
+    .btn-glass-portal:hover {
+      background: rgba(255, 255, 255, 0.16) !important;
+      border-color: #38bdf8 !important;
+      color: #38bdf8 !important;
+      box-shadow: 0 0 20px rgba(56, 189, 248, 0.3) !important;
+      transform: translateY(-2px);
+    }
+    .btn-glass-portal:active {
+      transform: translateY(0);
+    }
+
+    /* Glass Dropdown */
+    .glass-dropdown {
+      background: rgba(15, 23, 42, 0.95) !important;
+      backdrop-filter: blur(18px) saturate(180%);
+      -webkit-backdrop-filter: blur(18px) saturate(180%);
+      border: 1px solid rgba(255, 255, 255, 0.14) !important;
+      border-radius: 16px !important;
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.55), 0 0 20px rgba(56, 189, 248, 0.12) !important;
+      padding: 8px !important;
+      min-width: 275px;
+    }
+    .glass-dropdown .dropdown-item {
+      color: #e2e8f0 !important;
+      border-radius: 10px;
+      padding: 10px 14px;
+      transition: all 0.2s ease;
+    }
+    .glass-dropdown .dropdown-item:hover {
+      background: rgba(56, 189, 248, 0.14) !important;
+      color: #38bdf8 !important;
+      transform: translateX(4px);
+    }
+    .glass-dropdown .dropdown-divider {
+      border-color: rgba(255, 255, 255, 0.1) !important;
+      margin: 6px 0;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <nav class="navbar navbar-expand-lg navbar-dark navbar-custom sticky-top">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center gap-2" href="index.html">
+        <i class="bi bi-building-gear text-info fs-3"></i>
+        <span>ApexBuild <span class="badge bg-primary fs-6 fw-normal">CMS</span></span>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navContent">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item"><a class="nav-link active" href="#home">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="#services">Services</a></li>
+          <li class="nav-item"><a class="nav-link" href="#projects">Latest Projects</a></li>
+          <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+        </ul>
+        <div class="d-flex gap-2 align-items-center">
+          <div class="dropdown">
+            <button class="btn btn-glass-portal px-3 py-2 dropdown-toggle d-flex align-items-center gap-2 shadow-sm" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="bi bi-box-arrow-in-right text-info"></i>
+              <span>Sign In</span>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end glass-dropdown">
+              <li>
+                <a class="dropdown-item py-2 d-flex align-items-center gap-3" href="#" onclick="openLoginModal('STAFF')">
+                  <div class="rounded-3 p-2 d-flex align-items-center justify-content-center flex-shrink-0" style="background: rgba(56, 189, 248, 0.15); border: 1px solid rgba(56, 189, 248, 0.3); width: 38px; height: 38px;">
+                    <i class="bi bi-person-workspace text-info fs-5"></i>
+                  </div>
+                  <div>
+                    <div class="fw-bold text-white">Staff & Engineering ERP</div>
+                    <small class="text-light text-opacity-60 d-block" style="font-size: 11px;">Site Engineers, PM, Finance, Store</small>
+                  </div>
+                </a>
+              </li>
+              <li><hr class="dropdown-divider"></li>
+              <li>
+                <a class="dropdown-item py-2 d-flex align-items-center gap-3" href="#" onclick="openLoginModal('CLIENT')">
+                  <div class="rounded-3 p-2 d-flex align-items-center justify-content-center flex-shrink-0" style="background: rgba(45, 212, 191, 0.15); border: 1px solid rgba(45, 212, 191, 0.3); width: 38px; height: 38px;">
+                    <i class="bi bi-person-circle text-info fs-5"></i>
+                  </div>
+                  <div>
+                    <div class="fw-bold text-white">Client Self-Service</div>
+                    <small class="text-light text-opacity-60 d-block" style="font-size: 11px;">Track requests, quotes & tickets</small>
+                  </div>
+                </a>
+              </li>
+            </ul>
+          </div>
+          <button class="btn btn-glow-primary px-3.5 py-2 d-flex align-items-center gap-2" onclick="openRegisterModal()">
+            <i class="bi bi-person-plus-fill"></i>
+            <span>Client Register</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <header id="home" class="hero-section text-center text-lg-start py-5">
+    <div class="container py-2">
+      <div class="row align-items-end g-4">
+        <div class="col-lg-7 d-flex flex-column justify-content-between">
+          <div>
+            <span class="badge bg-primary bg-opacity-25 text-info border border-info border-opacity-25 px-3 py-1.5 rounded-pill fw-semibold mb-2.5">
+              <i class="bi bi-patch-check-fill me-1"></i>ISO 9001:2015 Certified • CIDA Grade C1 Enterprise
+            </span>
+            <h1 class="display-5 fw-bold mb-2.5 text-white lh-sm">
+              Engineering Excellence, <br>
+              <span class="text-info">Built to Last.</span>
+            </h1>
+            <p class="lead text-light text-opacity-75 mb-3" style="font-size: 1.05rem; max-width: 620px;">
+              ApexBuild delivers commercial landmarks, industrial infrastructure, and bespoke luxury residences. Our unified digital construction platform provides transparent milestone tracking, procurement integrity, and uncompromising structural quality.
+            </p>
+            <div class="d-flex flex-wrap gap-3 mb-4">
+              <button class="btn btn-glow-primary px-4 py-2.5 d-inline-flex align-items-center gap-2 shadow-lg" onclick="openRegisterModal()">
+                <i class="bi bi-person-plus-fill fs-5"></i>
+                <span>Get Started as Client</span>
+                <i class="bi bi-arrow-right ms-1"></i>
+              </button>
+              <div class="dropdown d-inline-block">
+                <button class="btn btn-glass-portal px-4 py-2.5 dropdown-toggle d-inline-flex align-items-center gap-2 shadow-lg" type="button" data-bs-toggle="dropdown">
+                  <i class="bi bi-box-arrow-in-right text-info fs-5"></i>
+                  <span>Sign In Portal</span>
+                </button>
+                <ul class="dropdown-menu glass-dropdown shadow-lg">
+                  <li>
+                    <a class="dropdown-item py-2 d-flex align-items-center gap-3" href="#" onclick="openLoginModal('STAFF')">
+                      <div class="rounded-3 p-2 d-flex align-items-center justify-content-center flex-shrink-0" style="background: rgba(56, 189, 248, 0.15); border: 1px solid rgba(56, 189, 248, 0.3); width: 38px; height: 38px;">
+                        <i class="bi bi-person-workspace text-info fs-5"></i>
+                      </div>
+                      <div>
+                        <div class="fw-bold text-white">Staff & Engineering ERP</div>
+                        <small class="text-light text-opacity-60 d-block" style="font-size: 11px;">Site Engineers, PM, Finance, Store</small>
+                      </div>
+                    </a>
+                  </li>
+                  <li><hr class="dropdown-divider"></li>
+                  <li>
+                    <a class="dropdown-item py-2 d-flex align-items-center gap-3" href="#" onclick="openLoginModal('CLIENT')">
+                      <div class="rounded-3 p-2 d-flex align-items-center justify-content-center flex-shrink-0" style="background: rgba(45, 212, 191, 0.15); border: 1px solid rgba(45, 212, 191, 0.3); width: 38px; height: 38px;">
+                        <i class="bi bi-person-circle text-info fs-5"></i>
+                      </div>
+                      <div>
+                        <div class="fw-bold text-white">Client Self-Service Portal</div>
+                        <small class="text-light text-opacity-60 d-block" style="font-size: 11px;">Track requests, quotes & tickets</small>
+                      </div>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="row g-3 pt-2 text-white border-top border-light border-opacity-10">
+            <div class="col-4">
+              <h4 class="fw-bold text-info mb-0">150+</h4>
+              <small class="text-light text-opacity-80 fw-medium d-block mt-1">Delivered Projects</small>
+            </div>
+            <div class="col-4">
+              <h4 class="fw-bold text-success mb-0">99.4%</h4>
+              <small class="text-light text-opacity-80 fw-medium d-block mt-1">On-Time Handover</small>
+            </div>
+            <div class="col-4">
+              <h4 class="fw-bold text-warning mb-0">15+ Yrs</h4>
+              <small class="text-light text-opacity-80 fw-medium d-block mt-1">Engineering Trust</small>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-5 d-none d-lg-block">
+          <div class="position-relative shadow-lg rounded-4 overflow-hidden border border-light border-opacity-25" style="height: 440px;">
+            <img src="images/building_showcase.jpg" alt="ApexBuild Corporate Headquarters" class="w-100 h-100 rounded-4" style="object-fit: cover;">
+            <div class="position-absolute bottom-0 start-0 end-0 p-3 bg-dark bg-opacity-75 text-white" style="backdrop-filter: blur(8px);">
+              <div class="d-flex justify-content-between align-items-center">
+                <div>
+                  <h6 class="fw-bold mb-0 text-white"><i class="bi bi-building me-2 text-info"></i>ApexBuild Corporate Headquarters</h6>
+                  <small class="text-light text-opacity-75">CIDA Grade C1 Construction Enterprise</small>
+                </div>
+                <span class="badge bg-primary px-3 py-2 rounded-pill">Corporate HQ</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Features Section -->
+  <section id="services" class="py-5 position-relative" style="background: linear-gradient(180deg, rgba(15, 23, 42, 0.55) 0%, rgba(15, 23, 42, 0.64) 50%, rgba(15, 23, 42, 0.82) 100%), url('images/bg_services.jpg') center/cover no-repeat; color: white;">
+    <div class="container py-4">
+      <div class="text-center mb-5">
+        <span class="badge bg-info bg-opacity-25 text-info border border-info border-opacity-25 px-3 py-2 rounded-pill fw-semibold mb-2">Integrated Solutions</span>
+        <h2 class="fw-bold text-white">Comprehensive Construction Management</h2>
+        <p class="text-light text-opacity-80">A fully integrated enterprise solution tailored to modern civil engineering standards.</p>
+      </div>
+
+      <div class="row g-4">
+        <div class="col-md-4">
+          <div class="glass-card h-100 p-4">
+            <div class="stat-icon mb-3 rounded-3" style="background: rgba(56, 189, 248, 0.18); border: 1px solid rgba(56, 189, 248, 0.35); color: #38bdf8;">
+              <i class="bi bi-building"></i>
+            </div>
+            <h5 class="fw-bold text-white mb-2">Project & Task Scheduling</h5>
+            <p class="text-light text-opacity-75 small mb-0">Plan milestones, schedule construction phases, and assign workforce crews with real-time tracking.</p>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="glass-card h-100 p-4">
+            <div class="stat-icon mb-3 rounded-3" style="background: rgba(52, 211, 153, 0.18); border: 1px solid rgba(52, 211, 153, 0.35); color: #34d399;">
+              <i class="bi bi-box-seam"></i>
+            </div>
+            <h5 class="fw-bold text-white mb-2">Inventory & Material Control</h5>
+            <p class="text-light text-opacity-75 small mb-0">Track cement, sand, and steel stocks with automated low-stock warnings and project disbursement vouchers.</p>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="glass-card h-100 p-4">
+            <div class="stat-icon mb-3 rounded-3" style="background: rgba(251, 191, 36, 0.18); border: 1px solid rgba(251, 191, 36, 0.35); color: #fbbf24;">
+              <i class="bi bi-truck"></i>
+            </div>
+            <h5 class="fw-bold text-white mb-2">Procurement & Suppliers</h5>
+            <p class="text-light text-opacity-75 small mb-0">Manage vendor relationships, generate formal purchase requests, and confirm incoming material deliveries.</p>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="glass-card h-100 p-4">
+            <div class="stat-icon mb-3 rounded-3" style="background: rgba(167, 139, 250, 0.18); border: 1px solid rgba(167, 139, 250, 0.35); color: #a78bfa;">
+              <i class="bi bi-currency-dollar"></i>
+            </div>
+            <h5 class="fw-bold text-white mb-2">Budgets & Cost Estimations</h5>
+            <p class="text-light text-opacity-75 small mb-0">Record itemized project expenses, monitor budget margins, and generate itemized client cost quotations.</p>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="glass-card h-100 p-4">
+            <div class="stat-icon mb-3 rounded-3" style="background: rgba(251, 113, 133, 0.18); border: 1px solid rgba(251, 113, 133, 0.35); color: #fb7185;">
+              <i class="bi bi-clipboard2-pulse"></i>
+            </div>
+            <h5 class="fw-bold text-white mb-2">Daily Site Progress Logs</h5>
+            <p class="text-light text-opacity-75 small mb-0">Site engineers document milestone completions, labor counts, and site issues with date-stamped audit logs.</p>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="glass-card h-100 p-4">
+            <div class="stat-icon mb-3 rounded-3" style="background: rgba(45, 212, 191, 0.18); border: 1px solid rgba(45, 212, 191, 0.35); color: #2dd4bf;">
+              <i class="bi bi-chat-left-quote"></i>
+            </div>
+            <h5 class="fw-bold text-white mb-2">Client Self-Service Portal</h5>
+            <p class="text-light text-opacity-75 small mb-0">Clients submit house blueprints, inspect accepted quotations, and resolve inquiries with transparency.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================================================================== -->
+  <!-- FEATURED PROJECTS PORTFOLIO SECTION -->
+  <!-- ==================================================================== -->
+  <section id="projects" class="py-5 position-relative" style="background: linear-gradient(180deg, rgba(15, 23, 42, 0.48) 0%, rgba(15, 23, 42, 0.60) 50%, rgba(15, 23, 42, 0.82) 100%), url('images/bg_projects.jpg') center/cover no-repeat; color: white;">
+    <div class="container py-4">
+      <div class="text-center mb-5">
+        <span class="badge bg-info bg-opacity-25 text-info border border-info border-opacity-25 px-3 py-2 rounded-pill fw-semibold mb-2">Our Signature Portfolio</span>
+        <h2 class="fw-bold text-white">Latest Completed Projects</h2>
+        <p class="text-light text-opacity-80">Explore our signature residential, commercial, and coastal developments built to uncompromising engineering standards.</p>
+      </div>
+
+      <div class="row g-4">
+        <!-- Project 1: Luxury Residential Villa -->
+        <div class="col-lg-4 col-md-6">
+          <div class="glass-card h-100 overflow-hidden d-flex flex-column">
+            <div class="project-card-img-wrap">
+              <img src="images/project_villa.jpg" alt="Luxury Residential Villa">
+              <span class="badge position-absolute top-0 end-0 m-3 px-3 py-2 rounded-pill shadow-sm" style="background: rgba(14, 165, 233, 0.88); backdrop-filter: blur(6px); border: 1px solid rgba(255, 255, 255, 0.3); font-size: 11px; font-weight: 600; letter-spacing: 0.3px;">
+                <i class="bi bi-house-door-fill me-1"></i>Luxury Residential
+              </span>
+            </div>
+            <div class="p-4 d-flex flex-column flex-grow-1">
+              <div class="d-flex align-items-center mb-2" style="color: #38bdf8; font-size: 13px; font-weight: 500;">
+                <i class="bi bi-geo-alt-fill text-danger me-1"></i>Malabe, Colombo
+              </div>
+              <h5 class="fw-bold mb-2 text-white">The Horizon Contemporary Villa</h5>
+              <p class="text-light text-opacity-75 small flex-grow-1">
+                A bespoke 5,500 sq.ft contemporary two-story luxury villa featuring an infinity swimming pool, minimalist open-concept living, and smart energy automation.
+              </p>
+              <div class="pt-3 mt-2 d-flex justify-content-between align-items-center small" style="border-top: 1px solid rgba(255, 255, 255, 0.12);">
+                <div>
+                  <div class="text-light text-opacity-60" style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px;">Floor Area</div>
+                  <div class="fw-bold text-white">5,500 Sq. Ft.</div>
+                </div>
+                <div class="text-end">
+                  <div class="text-light text-opacity-60" style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px;">Project Status</div>
+                  <span class="badge rounded-pill" style="background: rgba(34, 197, 94, 0.2); color: #4ade80; border: 1px solid rgba(74, 222, 128, 0.35); font-weight: 600;">Completed (2026)</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Project 2: Commercial Landmark -->
+        <div class="col-lg-4 col-md-6">
+          <div class="glass-card h-100 overflow-hidden d-flex flex-column">
+            <div class="project-card-img-wrap">
+              <img src="images/project_commercial.jpg" alt="Commercial Headquarters">
+              <span class="badge position-absolute top-0 end-0 m-3 px-3 py-2 rounded-pill shadow-sm" style="background: rgba(99, 102, 241, 0.88); backdrop-filter: blur(6px); border: 1px solid rgba(255, 255, 255, 0.3); font-size: 11px; font-weight: 600; letter-spacing: 0.3px;">
+                <i class="bi bi-building me-1"></i>Commercial Complex
+              </span>
+            </div>
+            <div class="p-4 d-flex flex-column flex-grow-1">
+              <div class="d-flex align-items-center mb-2" style="color: #38bdf8; font-size: 13px; font-weight: 500;">
+                <i class="bi bi-geo-alt-fill text-danger me-1"></i>Colombo 03, Sri Lanka
+              </div>
+              <h5 class="fw-bold mb-2 text-white">Nexus Corporate Headquarters</h5>
+              <p class="text-light text-opacity-75 small flex-grow-1">
+                A 12-story state-of-the-art commercial high-rise with high-performance curtain glass, geometric steel framing, and LEED Gold environmental accreditation.
+              </p>
+              <div class="pt-3 mt-2 d-flex justify-content-between align-items-center small" style="border-top: 1px solid rgba(255, 255, 255, 0.12);">
+                <div>
+                  <div class="text-light text-opacity-60" style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px;">Floor Area</div>
+                  <div class="fw-bold text-white">120,000 Sq. Ft.</div>
+                </div>
+                <div class="text-end">
+                  <div class="text-light text-opacity-60" style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px;">Project Status</div>
+                  <span class="badge rounded-pill" style="background: rgba(34, 197, 94, 0.2); color: #4ade80; border: 1px solid rgba(74, 222, 128, 0.35); font-weight: 600;">Completed (2025)</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Project 3: Coastal Residence -->
+        <div class="col-lg-4 col-md-6">
+          <div class="glass-card h-100 overflow-hidden d-flex flex-column">
+            <div class="project-card-img-wrap">
+              <img src="images/project_residence.jpg" alt="Coastal Condominium">
+              <span class="badge position-absolute top-0 end-0 m-3 px-3 py-2 rounded-pill shadow-sm" style="background: rgba(245, 158, 11, 0.88); backdrop-filter: blur(6px); border: 1px solid rgba(255, 255, 255, 0.3); font-size: 11px; font-weight: 600; letter-spacing: 0.3px;">
+                <i class="bi bi-water me-1"></i>Coastal Development
+              </span>
+            </div>
+            <div class="p-4 d-flex flex-column flex-grow-1">
+              <div class="d-flex align-items-center mb-2" style="color: #38bdf8; font-size: 13px; font-weight: 500;">
+                <i class="bi bi-geo-alt-fill text-danger me-1"></i>Galle Coastal Belt
+              </div>
+              <h5 class="fw-bold mb-2 text-white">Azure Oceanfront Condominium</h5>
+              <p class="text-light text-opacity-75 small flex-grow-1">
+                A premium beachfront residential development with 36 panoramic ocean-view suites, marine-grade reinforced concrete, infinity pool, and tropical landscaping.
+              </p>
+              <div class="pt-3 mt-2 d-flex justify-content-between align-items-center small" style="border-top: 1px solid rgba(255, 255, 255, 0.12);">
+                <div>
+                  <div class="text-light text-opacity-60" style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px;">Floor Area</div>
+                  <div class="fw-bold text-white">85,000 Sq. Ft.</div>
+                </div>
+                <div class="text-end">
+                  <div class="text-light text-opacity-60" style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px;">Project Status</div>
+                  <span class="badge rounded-pill" style="background: rgba(34, 197, 94, 0.2); color: #4ade80; border: 1px solid rgba(74, 222, 128, 0.35); font-weight: 600;">Completed (2025)</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Call to Action Banner -->
+      <div class="mt-5 p-4 rounded-4 text-white d-flex flex-column flex-md-row justify-content-between align-items-center gap-3 glass-card">
+        <div>
+          <h5 class="fw-bold mb-1 text-white"><i class="bi bi-hammer text-info me-2"></i>Have a Custom Architectural or Civil Vision?</h5>
+          <p class="text-light text-opacity-75 mb-0 small">Submit your architectural floor plans or construction requests for an immediate cost quotation.</p>
+        </div>
+        <button class="btn btn-glow-primary px-4 py-3 fw-bold text-nowrap d-inline-flex align-items-center gap-2 shadow" onclick="openRegisterModal()">
+          <i class="bi bi-file-earmark-arrow-up fs-5"></i>
+          <span>Submit Construction Request</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================================================================== -->
+  <!-- ABOUT SECTION -->
+  <!-- ==================================================================== -->
+  <section id="about" class="py-5 position-relative text-white" style="background: linear-gradient(180deg, rgba(15, 23, 42, 0.55) 0%, rgba(15, 23, 42, 0.65) 50%, rgba(15, 23, 42, 0.82) 100%), url('images/bg_about.jpg') center/cover no-repeat;">
+    <div class="container py-4">
+      <div class="row align-items-center g-5">
+        <div class="col-lg-7">
+          <span class="badge bg-info bg-opacity-25 text-info border border-info border-opacity-25 px-3 py-2 rounded-pill fw-semibold mb-2">Corporate Profile</span>
+          <h2 class="fw-bold mb-3 text-white">Engineering Excellence Built on Over 15 Years of Trust</h2>
+          <p class="text-light text-opacity-80 lead">
+            ApexBuild Construction (Pvt) Ltd is a CIDA Grade C1 certified civil contractor and ISO 9001:2015 accredited building enterprise based in Colombo, Sri Lanka.
+          </p>
+          <p class="text-light text-opacity-70">
+            Our unified digital construction management platform bridges the gap between on-site engineering crews, corporate management, and property owners. From initial blueprint submission and transparent cost estimation to warehouse material logistics and final building handover, ApexBuild ensures every project meets international structural standards.
+          </p>
+          <div class="row g-3 mt-2">
+            <div class="col-md-6">
+              <div class="d-flex gap-3 align-items-start p-3 rounded-3" style="background: rgba(255, 255, 255, 0.08); backdrop-filter: blur(6px); border: 1px solid rgba(255, 255, 255, 0.15);">
+                <div class="stat-icon bg-primary bg-opacity-25 text-info flex-shrink-0">
+                  <i class="bi bi-patch-check"></i>
+                </div>
+                <div>
+                  <h6 class="fw-bold mb-1 text-white">CIDA Grade C1 Certified</h6>
+                  <small class="text-light text-opacity-75">Accredited by the Construction Industry Development Authority of Sri Lanka.</small>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="d-flex gap-3 align-items-start p-3 rounded-3" style="background: rgba(255, 255, 255, 0.08); backdrop-filter: blur(6px); border: 1px solid rgba(255, 255, 255, 0.15);">
+                <div class="stat-icon bg-success bg-opacity-25 text-success flex-shrink-0">
+                  <i class="bi bi-shield-check"></i>
+                </div>
+                <div>
+                  <h6 class="fw-bold mb-1 text-white">ISO 9001:2015 Standards</h6>
+                  <small class="text-light text-opacity-75">Rigorous quality control on raw materials, casting integrity, and safety protocols.</small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-5">
+          <div class="glass-card p-4 text-white">
+            <h5 class="fw-bold text-info mb-3"><i class="bi bi-geo-alt me-2"></i>ApexBuild Corporate Headquarters</h5>
+            <div class="mb-3 d-flex gap-3 align-items-center">
+              <i class="bi bi-building fs-4 text-info"></i>
+              <div>
+                <div class="small text-light text-opacity-75">Registered Address</div>
+                <div class="fw-semibold">No. 45, Galle Road, Colombo 03, Sri Lanka</div>
+              </div>
+            </div>
+            <div class="mb-3 d-flex gap-3 align-items-center">
+              <i class="bi bi-telephone fs-4 text-info"></i>
+              <div>
+                <div class="small text-light text-opacity-75">Phone Enquiries</div>
+                <div class="fw-semibold">+94 11 234 5678 / +94 77 123 4567</div>
+              </div>
+            </div>
+            <div class="mb-3 d-flex gap-3 align-items-center">
+              <i class="bi bi-envelope fs-4 text-info"></i>
+              <div>
+                <div class="small text-light text-opacity-75">Email Support</div>
+                <div class="fw-semibold">info@construction.com / support@construction.com</div>
+              </div>
+            </div>
+            <div class="d-flex gap-3 align-items-center border-top border-secondary pt-3 mt-2">
+              <i class="bi bi-clock fs-4 text-info"></i>
+              <div>
+                <div class="small text-light text-opacity-75">Headquarters Hours</div>
+                <div class="fw-semibold">Mon – Sat: 8:00 AM – 6:00 PM (Site Operations 24/7)</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-dark text-white py-4 border-top border-secondary">
+    <div class="container text-center">
+      <p class="mb-1 fw-bold">© 2026 ApexBuild Construction (Pvt) Ltd. All Rights Reserved.</p>
+      <small class="text-light text-opacity-75">CIDA Grade C1 Certified Building Contractor • ISO 9001:2015 Accredited Enterprise</small>
+    </div>
+  </footer>
+
+  <!-- ==================================================================== -->
+  <!-- LOGIN MODAL -->
+  <!-- ==================================================================== -->
+  <div class="modal fade" id="loginModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title fw-bold" id="login-modal-title"><i class="bi bi-box-arrow-in-right me-2"></i>Sign In to System</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <form onsubmit="handleLogin(event)">
+          <div class="modal-body p-4">
+            <div id="login-portal-badge" class="mb-3"></div>
+            <div class="mb-3">
+              <label class="form-label fw-semibold">Email Address</label>
+              <input type="email" id="login-email" class="form-control" required placeholder="name@domain.com">
+            </div>
+            <div class="mb-3">
+              <label class="form-label fw-semibold">Password</label>
+              <input type="password" id="login-password" class="form-control" required placeholder="••••••••">
+            </div>
+            <div class="d-flex justify-content-between align-items-center" id="login-register-link">
+              <span class="small text-muted">Don't have an account?</span>
+              <button type="button" class="btn btn-link btn-sm p-0" onclick="switchToRegister()">Register as Client</button>
+            </div>
+          </div>
+          <div class="modal-footer bg-light">
+            <button type="button" class="btn btn-outline-secondary rounded-pill px-3" data-bs-dismiss="modal">Cancel</button>
+            <button type="submit" class="btn btn-glow-primary px-4 py-2 fw-bold">Sign In</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================================================================== -->
+  <!-- CLIENT REGISTRATION MODAL -->
+  <!-- ==================================================================== -->
+  <div class="modal fade" id="registerModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title fw-bold"><i class="bi bi-person-plus-fill me-2"></i>Client Registration</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <form onsubmit="handleRegister(event)">
+          <div class="modal-body p-4">
+            <div class="mb-3">
+              <label class="form-label fw-semibold">Full Name *</label>
+              <input type="text" id="reg-name" class="form-control" required placeholder="e.g. John Silva">
+            </div>
+            <div class="mb-3">
+              <label class="form-label fw-semibold">Email Address *</label>
+              <input type="email" id="reg-email" class="form-control" required placeholder="john@gmail.com">
+            </div>
+            <div class="mb-3">
+              <label class="form-label fw-semibold">Password *</label>
+              <input type="password" id="reg-password" class="form-control" required placeholder="Minimum 4 characters">
+            </div>
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label class="form-label fw-semibold">Phone Number</label>
+                <input type="text" id="reg-phone" class="form-control" placeholder="0771234567">
+              </div>
+              <div class="col-md-6 mb-3">
+                <label class="form-label fw-semibold">City / Location</label>
+                <input type="text" id="reg-address" class="form-control" placeholder="Colombo">
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer bg-light">
+            <button type="button" class="btn btn-outline-secondary rounded-pill px-3" data-bs-dismiss="modal">Cancel</button>
+            <button type="submit" class="btn btn-glow-primary px-4 py-2 fw-bold">Create Account</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap 5 JS Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/common.js"></script>
+  <script>
+    let selectedPortal = 'STAFF';
+
+    function openLoginModal(portalType = 'STAFF') {
+      selectedPortal = portalType;
+      const titleEl = document.getElementById('login-modal-title');
+      const badgeEl = document.getElementById('login-portal-badge');
+      const regLink = document.getElementById('login-register-link');
+
+      if (portalType === 'CLIENT') {
+        if (titleEl) titleEl.innerHTML = '<i class="bi bi-person-circle me-2 text-info"></i>Client Portal Sign In';
+        if (badgeEl) badgeEl.innerHTML = '<div class="alert alert-info py-2 px-3 mb-0 small"><i class="bi bi-info-circle me-1"></i>Sign in to track your construction projects, quotations & support tickets.</div>';
+        if (regLink) regLink.classList.remove('d-none');
+      } else {
+        if (titleEl) titleEl.innerHTML = '<i class="bi bi-shield-lock me-2 text-primary"></i>Staff & Engineering ERP';
+        if (badgeEl) badgeEl.innerHTML = '<div class="alert alert-primary py-2 px-3 mb-0 small"><i class="bi bi-shield-check me-1"></i>Internal Enterprise ERP. Authorized Site Engineers & Staff only.</div>';
+        if (regLink) regLink.classList.add('d-none');
+      }
+
+      new bootstrap.Modal(document.getElementById('loginModal')).show();
+    }
+
+    function openRegisterModal() {
+      new bootstrap.Modal(document.getElementById('registerModal')).show();
+    }
+
+    function switchToRegister() {
+      bootstrap.Modal.getInstance(document.getElementById('loginModal')).hide();
+      openRegisterModal();
+    }
+
+    function quickFill(email, password) {
+      document.getElementById('login-email').value = email;
+      document.getElementById('login-password').value = password;
+      openLoginModal();
+    }
+
+    async function handleLogin(event) {
+      event.preventDefault();
+      const email = document.getElementById('login-email').value;
+      const password = document.getElementById('login-password').value;
+
+      try {
+        const res = await fetch('/api/auth/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password })
+        });
+
+        if (!res.ok) {
+          const err = await res.json();
+          throw new Error(err.message || 'Login failed');
+        }
+
+        const user = await res.json();
+        setCurrentUser(user);
+
+        if (selectedPortal === 'STAFF' && user.role === 'CLIENT') {
+          showToast('Signed in with a Client account. Redirecting to Client Portal...', 'warning');
+        } else if (selectedPortal === 'CLIENT' && user.role !== 'CLIENT') {
+          showToast(`Signed in as ${user.role.replace('_', ' ')}. Redirecting to Staff ERP...`, 'success');
+        } else {
+          showToast('Login successful! Redirecting...');
+        }
+
+        setTimeout(() => {
+          if (user.role === 'CLIENT') {
+            window.location.href = 'client.html';
+          } else {
+            window.location.href = 'dashboard.html';
+          }
+        }, 800);
+      } catch (err) {
+        showToast(err.message, 'error');
+      }
+    }
+
+    async function handleRegister(event) {
+      event.preventDefault();
+      const userData = {
+        fullName: document.getElementById('reg-name').value,
+        email: document.getElementById('reg-email').value,
+        password: document.getElementById('reg-password').value,
+        role: 'CLIENT',
+        phone: document.getElementById('reg-phone').value,
+        address: document.getElementById('reg-address').value
+      };
+
+      try {
+        const res = await fetch('/api/auth/register', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(userData)
+        });
+
+        if (!res.ok) {
+          const err = await res.json();
+          throw new Error(err.message || 'Registration failed');
+        }
+
+        const user = await res.json();
+        setCurrentUser(user);
+        showToast('Registration successful! Redirecting to Client Portal...');
+
+        setTimeout(() => {
+          window.location.href = 'client.html';
+        }, 1000);
+      } catch (err) {
+        showToast(err.message, 'error');
+      }
+    }
+  </script>
+</body>
+</html>
