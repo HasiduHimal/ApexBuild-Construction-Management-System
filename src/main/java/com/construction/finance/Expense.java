@@ -1,5 +1,7 @@
 package com.construction.finance;
 
+//developed by Sehansa Pahanmi(IT25103433)
+
 import com.construction.project.Project;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
