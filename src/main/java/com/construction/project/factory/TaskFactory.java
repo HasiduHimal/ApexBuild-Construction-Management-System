@@ -1,6 +1,6 @@
 package com.construction.project.factory;
 
-// Developed & Verified by Wijesekera S.D.R. (IT25102552)
+// Developed & Verified by Wijesekera S.D.R. (IT25102552).
 public class TaskFactory {
 
     // Factory method to instantiate the correct TaskPlan without exposing concrete classes
