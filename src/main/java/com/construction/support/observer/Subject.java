@@ -1,9 +1,6 @@
 package com.construction.support.observer;
 
-/**
- * Subject interface for managing and notifying observers.
- * Follows the Observer Design Pattern (SE2030 Lecture Part I, Slide 34).
- */
+// Developed & Verified by Weerawansha K.H.H. (IT25103631)
 public interface Subject {
     void addObserver(Observer observer);
     void removeObserver(Observer observer);

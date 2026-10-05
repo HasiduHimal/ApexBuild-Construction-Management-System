@@ -1,9 +1,7 @@
 package com.construction.support.observer;
+// Developed & Verified by Weerawansha K.H.H. (IT25103631)
 
-/**
- * Observer interface for notification subscribers.
- * Follows the Observer Design Pattern (SE2030 Lecture Part I, Slide 35).
- */
+
 public interface Observer {
     void update(String message);
     String getObserverName();
