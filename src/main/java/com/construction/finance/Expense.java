@@ -1,6 +1,6 @@
 package com.construction.finance;
 
-//developed by Sehansa Pahanmi(IT25103433)
+//developed by Sehansa Pahanmi (IT25103433)
 
 import com.construction.project.Project;
 import jakarta.persistence.Column;
@@ -16,7 +16,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**
- * Author: Pahanmi S.B.G. (IT25104485)
+ * Author: Pahanmi S.B.G. (IT25103433)
  * Project Construction Expense Voucher Entity
  */
 @Entity
