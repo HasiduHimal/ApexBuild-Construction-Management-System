@@ -1,5 +1,5 @@
 package com.construction.project;
-// Developed & Verified by Wijesekera S.D.R. (IT25102552)
+// Developed & Verified by Wijesekera S.D.R. (IT25102552).
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;

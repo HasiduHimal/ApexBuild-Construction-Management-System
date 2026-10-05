@@ -12,7 +12,7 @@ import jakarta.persistence.Table;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-// Developed & Verified by Wijesekera S.D.R. (IT25102552)
+// Developed & Verified by Wijesekera S.D.R. (IT25102552).
 @Entity
 @Table(name = "project_tasks")
 public class ProjectTask {
