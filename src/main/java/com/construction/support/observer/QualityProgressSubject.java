@@ -3,10 +3,7 @@ package com.construction.support.observer;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Concrete Subject that notifies observers about progress milestones and inquiry updates.
- * (SE2030 Lecture Part I, Slide 38).
- */
+// Developed & Verified by Weerawansha K.H.H. (IT25103631).
 public class QualityProgressSubject implements Subject {
 
     private final List<Observer> observers = new ArrayList<>();

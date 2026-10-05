@@ -3,10 +3,7 @@ package com.construction.support.observer;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Concrete Observer that receives site progress milestone updates for engineering staff.
- * (SE2030 Lecture Part I, Slide 41).
- */
+// Developed & Verified by Weerawansha K.H.H. (IT25103631).
 public class SiteEngineerObserver implements Observer {
 
     private final String engineerName;

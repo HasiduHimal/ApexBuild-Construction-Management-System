@@ -1,12 +1,10 @@
 package com.construction.support.observer;
+// Developed & Verified by Weerawansha K.H.H. (IT25103631).
 
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Concrete Observer that receives client updates and inquiry resolutions.
- * (SE2030 Lecture Part I, Slide 40).
- */
+
 public class ClientNotificationObserver implements Observer {
 
     private final String observerName;
