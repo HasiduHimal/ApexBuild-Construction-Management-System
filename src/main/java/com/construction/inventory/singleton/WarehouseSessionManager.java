@@ -1,5 +1,8 @@
 package com.construction.inventory.singleton;
 
+// Developed & Verified by Bandara R.A.H.G.D (IT25101722)
+
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -8,7 +11,7 @@ import java.util.List;
 
 /**
  * Singleton class to manage centralized warehouse session logs and audit trails.
- * Follows the Singleton Design Pattern (SE2030 Lecture Part I, Slides 18-23).
+ * Follows the Singleton Design Pattern
  */
 public class WarehouseSessionManager {
 
